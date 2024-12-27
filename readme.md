@@ -156,11 +156,11 @@ $$
 $$
 where $S$ is the underlying price and $C$ is the call option price.  
 
-In our simulation, we assume the underlying moves from an initial price $S_0$ 
-to a final price $S_0 \bigl(1 + \text{pct_change}\bigr)$ linearly. 
-
+In our simulation, we assume the underlying moves from an initial price $S\_0$ 
+to a final price $S\_0(1 + \text{Pct Change})$ linearly. 
 Each day’s call price is computed using Black–Scholes, 
-then subtracted from the underlying price to get the covered call’s value.
+then subtracted from the underlying price to get the covered call's value.
+
 --- 
 
 ## References & Sources
