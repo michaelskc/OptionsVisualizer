@@ -31,8 +31,7 @@ To price an American option, we will use a discrete binomial model (Cox-Ross-Rub
 
 1. **Up and Down Factors**  
    The CRR model assumes the underlying price can move up by a factor $u$ or down by a factor $d$ each step:
-   $$
-   u = e^{\sigma \sqrt{\Delta t}}, 
+   $$u = e^{\sigma \sqrt{\Delta t}}, 
    \quad
    d = \frac{1}{u}
    $$
@@ -40,8 +39,7 @@ To price an American option, we will use a discrete binomial model (Cox-Ross-Rub
 
 2. **Risk-Neutral Probability**  
    To compute the option value as risk-neutral, we will use the formula:
-   $$
-   \tilde{p} = \frac{e^{(r - q)\Delta t} - d}{u - d}
+   $$\tilde{p} = \frac{e^{(r - q)\Delta t} - d}{u - d}
    $$
    where
    - $r$ is the risk-free rate,
@@ -56,13 +54,12 @@ p = (R_q - d) / (u - d)
 
 - At expiration ($t=T$), the payoff of a call is $\max(S_T - K, 0)$; for a put, $\max(K - S_T, 0)$.
 - With this value, we can work backward through each time step $i = N-1, N-2, \dots, 0$ to compute the option value $V_{i,j}$ at each node:
-  $$
-  V_{i,j} = \max \Bigl\{ 
+  $$V_{i,j} = \max \bigl(\{ 
       \text{(immediate exercise value)}, 
       e^{-r \Delta t} \bigl[
          \tilde{p} \cdot V_{i+1,j+1} + (1 - \tilde{p}) \cdot V_{i+1,j}
       \bigr]
-   \Bigr\}
+   \Bigr]\}
   $$
   Because American options can be exercises before expiration, we take the max value here.
 ```
@@ -82,19 +79,13 @@ for i in reversed(range(N)):
 
 Other Greeks: Delta $(\Delta)$ and Gamma $(\Gamma)$ are also visualized using the finite differences method:
 - **Delta**:
-  $$
-  \Delta \approx \frac{V(S + h) - V(S - h)}{2h}
-  $$
+  $$\Delta \approx \frac{V(S + h) - V(S - h)}{2h}$$
 - **Gamma**:
-  $$
-  \Gamma \approx \frac{V(S + h) - 2V(S) + V(S - h)}{h^2}
-  $$
+  $$\Gamma \approx \frac{V(S + h) - 2V(S) + V(S - h)}{h^2}$$
 where $V(S)$ is the option price*computed at spot price $S$, and $h$ is a small increment.
 
 Theta is handled day-to-day (for $N$ days), computing the difference in option prices over a 24 hour interval:
-$$
-\Theta \approx \frac{V(S, t+1) - V(S, t)}{\frac{1}{365}}
-$$
+$$\Theta \approx \frac{V(S, t+1) - V(S, t)}{\frac{1}{365}}$$
 
 ```
 h = 0.5
@@ -113,12 +104,11 @@ gamma = (price_up - 2.0 * price_mid + price_down) / (h ** 2)
 ### Call Option Price
 
 The Black–Scholes formula for a European call is:
-$$
-C(S, t) = S \, e^{-qT} \Phi(d_1) \;-\; K \, e^{-rT} \Phi(d_2),
-$$
+
+$$C(S, t) = S \, e^{-qT} \Phi(d_1) \;-\; K \, e^{-rT} \Phi(d_2), $$
 where $T$ is the time to maturity in years and $\Phi(\cdot)$ is the CDF of the standard normal distribution. The terms $d_1$ and $d_2$ are:
-$$
-d_1 = \frac{\ln \left(\frac{S}{K}\right) + \left(r - q + \frac{\sigma^2}{2}\right) T}{\sigma \sqrt{T}},
+
+$$d_1 = \frac{\ln \left(\frac{S}{K}\right) + \left(r - q + \frac{\sigma^2}{2}\right) T}{\sigma \sqrt{T}},
 \quad
 d_2 = d_1 - \sigma \sqrt{T}.
 $$
@@ -132,13 +122,10 @@ return call_price
 ### Black–Scholes Greeks
 
 In the Covered Call code, we compute the main Greeks for the call:
-- **Delta** $(\Delta)$:  
-  $$
-  \Delta = e^{-q T}\,\Phi(d_1)
+- **Delta** $(\Delta)$:  $$\Delta = e^{-q T}\,\Phi(d_1)
   $$
 - **Gamma** $(\Gamma)$:
-  $$
-  \Gamma = \frac{e^{-q T}}{S \, \sigma \sqrt{T}} \;\frac{1}{\sqrt{2\pi}} \, e^{-\frac{d_1^2}{2}}
+  $$\Gamma = \frac{e^{-q T}}{S \, \sigma \sqrt{T}} \;\frac{1}{\sqrt{2\pi}} \, e^{-\frac{d_1^2}{2}}
   $$
 - **Theta** $(\Theta)$, **Vega** $(\nu)$, **Rho** $(\rho)$ follow from the standard Black–Scholes method.
 ```
@@ -151,8 +138,7 @@ gamma = (math.exp(-q * T) / (S * sigma * math.sqrt(T))) \
 ### Covered Call Strategy
 
 The net position value at any time is:
-$$
-\text{Covered Call} = S - C
+$$\text{Covered Call} = S - C
 $$
 where $S$ is the underlying price and $C$ is the call option price.  
 
